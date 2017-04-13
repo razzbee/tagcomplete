@@ -25,25 +25,48 @@
 			//autocomplete
 			autocomplete: {
 
+				//Auto complete data
+				data: [],
+
+				//incase of remote , autocomplete
+				//remote options, same as jqery Ajax
+				//options
 				ajaxOpts: {
+					//url: "",
 					method: 'GET',
 					dataType: 'json',
 					data: {}
 				},
 
-				//param,ajax only
+				//set remote query parameters 
+				//for ajax only
 				params : function(value){
 					return {q: value,lol: 23};
-				},
+				},//end params
 
-				//proccess data for ajax only
+				/*
+				*After Ajax request ,proccess
+				*the data so it will be well
+				*formatted for the plugin
+				*the returned data must be in the format
+				*of {key:text} where key is the unique id 
+				 */
 				proccessData: function(data){
 					return data;
-				},
+				}
 
-				//data
-				data:[]
-			}//end auto complete
+			},//end auto complete
+
+			//triggers when a new tag is added
+			onAdd: function(data){
+				return true;
+			},//end on Add 
+
+			//ondelete 
+			//triggers when a drop down is deleted
+			onDelete: function(data){
+				return true;
+			}//end on delete
 
 		};//end default objects 
 
@@ -135,7 +158,7 @@
 				var id = $(this).data('id');
 
 				//add tag 
-				$.fn.addTag(inst.tagsContainer,id,$(this).text());
+				$.fn.addTag(id,$(this).text(),inst);
 
 				//refresh User input
 				$.fn.refreshUserInput(inst.userInput,inst.tagsContainer,inst.options);
@@ -150,16 +173,17 @@
 				$.fn.clearAutoComplete(inst.autoComplete);
 			});//end onclick 
 
+
 			//if the tag close button is clicked
 			tagsContainer.on("click",".tag .close",instanceData,function(e){
 				
 				//instance data
 				inst = e.data;
 
-				$(this).parent(".tag").remove();
+				tag = $(this).parent(".tag");
 
-				//refresh User Input 
-				$.fn.refreshUserInput(inst.userInput,inst.tagsContainer,inst.options);
+				//delete tag
+				$.fn.deleteTag(tag,inst);
 			});//end onTag Close 
 
 
@@ -167,16 +191,16 @@
 			tagInput.on("keyup",instanceData,function(e){
 
 				//instance data 
-				instData = e.data;
+				instance = e.data;
 
 				//deflate the instance data 
-				tagCompleteMain = instData.tagCompleteMain;
-				tagComplete = instData.tagComplete;
-				tagsContainer = instData.tagsContainer;
-				tagInput = instData.tagInput;
-				autoComplete = instData.autoComplete;
-				options = instData.options;
-				ajaxPool = instData.ajaxPool;
+				tagCompleteMain = instance.tagCompleteMain;
+				tagComplete = instance.tagComplete;
+				tagsContainer = instance.tagsContainer;
+				self = tagInput = instance.tagInput;
+				autoComplete = instance.autoComplete;
+				options = instance.options;
+				ajaxPool = instance.ajaxPool;
 
 				value = $(this).val();
 
@@ -204,17 +228,12 @@
 
 					lastTagInfo = $.fn.getTagInfo(tagsContainer,lastTagNo);
 
-					//remove the tag
-					lastTagInfo.selector.remove();
-
-					//console.log(lastTagInfo.text);
-
+					//delete tag
+					$.fn.deleteTag(lastTagInfo.selector,instance);
+					
 					//update the tags input text to the deleted 
 					//also this will help move the cursor to the end
-					tagInput.focus().val('').val(lastTagInfo.text);
-
-					//refresh User input
-					$.fn.refreshUserInput(userInput,tagsContainer,options);
+					tagInput.focus().val(lastTagInfo.text);
 
 					//stop exec
 					return self;
@@ -227,26 +246,28 @@
 				//create tag
 				else if((keycode == 13 || e.key == options.tokenizer)
 						&& value.length > 0
-						 && options.freeinput == true){
+						&& options.freeinput == true){
 
 					//trim last tokenizer 
-					value = value.slice(0,value.lastIndexOf(options.tokenizer));
+					if(value.endsWith(options.tokenizer)){
+						value = value.slice(0,value.lastIndexOf(options.tokenizer));
+					}//end if 
+
+					value = $.trim(value);
+
+					if(value.length == 0){
+
+						$(this).val("");
+						
+						return self;
+					}
 
 					//add tag 
-					$.fn.addTag(tagsContainer,value,value);
+					// key, value, instance
+					$.fn.addTag(value,value,instance);
 
 					//empty value 
 					$(this).val("");
-
-					//stop ajax requests 
-					$.fn.abortAjax(ajaxPool);
-
-					//clear autocomplete 
-					$.fn.clearAutoComplete(autoComplete);
-
-					//refresh User input
-					$.fn.refreshUserInput(userInput,tagsContainer,options);
-
 
 					return self;
 				}//end if enter is pressed 
@@ -346,10 +367,10 @@
 	 * Module Functions 
 	 */
 
-	 	/**
+	/**
 	 * addTag
 	 */
-	$.fn.addTag = function(tagsContainer,tagId,tagText){
+	$.fn.addTag = function(tagId,tagText,instance){
 
 		closeTag = "<span class='close'></span>";
 
@@ -357,8 +378,25 @@
 				tagText+closeTag+
 				"</span>");
 
-		tagsContainer.append(tag);
+		//append tag
+		instance.tagsContainer.append(tag);
+
+		//trigger onAdd 
+		instance.options.onAdd.call(null,{tagId:tagText});
+
+		//stop ajax requests 
+		$.fn.abortAjax(instance.ajaxPool);
+
+		//clear autocomplete 
+		$.fn.clearAutoComplete(instance.autoComplete);
+
+		//refresh User input
+		$.fn.refreshUserInput(instance.userInput,
+							  instance.tagsContainer,
+							  instance.options);
+		return true;
 	};//end add Tag
+
 
 	//getTag
 	$.fn.getTagInfo = function(tagsContainer,child){
@@ -462,6 +500,30 @@
 	 	//console.log(tokenizedData);
 	 	userInput.val(tokenizedData);
 	 };//end refresh userInput
+
+	 /**
+	  * deleteTag
+	  */
+	 $.fn.deleteTag = function(tag,instance){
+
+	 	//lets get the tag info 
+	 	var tagId = $(tag).data("id");
+	 	var tagText = $(tag).text();
+
+	 	//delete tag
+	 	tag.remove();
+
+	 	//call on Delete
+	 	instance.options.onDelete.call(null,{
+	 										id:tagId,
+	 										text:tagText
+	 									});
+
+	 	//refresh User Input 
+		$.fn.refreshUserInput(instance.userInput,instance.tagsContainer,instance.options);
+		
+		return true;
+	 }//end delete 
 	
 	 /**
 	  * End Module Functions 
