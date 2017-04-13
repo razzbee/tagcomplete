@@ -5,10 +5,10 @@ Tag + AutoComplete = Tagcomplete is a jquery library for tagging and autocomplet
 ### Include the scripts into your page
 
 ```html
-<link rel='stylesheet' href='/path/to/tagcomplete.material.css' />
+<link rel='stylesheet' href='src/tagcomplete.css' />
 
 <script src='/path/to/jquery.js'></script>
-<script src='/path/to/ttagcomplete.js'></script>
+<script src='src/tagcomplete.js'></script>
 ```
 
 ```javascript
