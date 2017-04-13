@@ -36,7 +36,7 @@ $(function(){
 
 		//proccess data after ajax is complete and send it back to plugin
 		//the data must be an object in the form 
-		{id:id ,text:text}
+		//{id:id ,text:text}
 		proccessData: function(data){
 
 		    //return the data
