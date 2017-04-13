@@ -1,8 +1,8 @@
 # tagcomplete
 Tag + AutoComplete = Tagcomplete is a jquery library for tagging and autocomplete,it also supports ajax and manual data
 
-##Instruction:
-###Include the scripts into your page
+## Instruction:
+### Include the scripts into your page
 
 ```html
 <link rel='stylesheet' href='/path/to/tagcomplete.material.css' />
@@ -49,9 +49,9 @@ $(function(){
 });
 ```
 
-##Default Options
+## Default Options
 ```javascript
-var defaultOpts = {
+	var defaultOpts = {
 			
 			//keylimit,input limit
 			keylimit: 1,
@@ -87,13 +87,14 @@ var defaultOpts = {
 					return {q: value,lol: 23};
 				},
 
-				//proccess data for ajax only
-				//after ajax proccess data 
+				//proccess data after the ajax has returned
+				//the data from server 
 				//and return the proccessed data
 				//this method is called in the onSuccess
 				//ajax event
 				//also data returned must be in the form
-				//of {id: key ,text: 'some text'}
+				//of {id:text}
+				//where id is any unique id of the text
 				proccessData: function(data){
 					return data;
 				},
