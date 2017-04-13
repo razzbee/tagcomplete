@@ -99,7 +99,18 @@ $(function(){
 					return data;
 				},
 
-			}//end auto complete
+			},//end auto complete
+			
+			//triggers when a new tag is added
+			onAdd: function(data){
+			 	return true;
+			},
+
+			//ondelete 
+			//triggers when a tag is deleted
+			onDelete: function(data){
+				return true;
+			}
 
 		};
 ```		
