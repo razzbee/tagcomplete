@@ -1,0 +1,64 @@
+<!Doctype html>
+<html>
+<head>
+<link rel='stylesheet' href='src/tagcomplete.min.css' />
+<script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+<script src='src/tagcomplete.min.js'></script>
+<title>Tag Complete</title>
+
+<style>
+body{
+	background:#E3EEEF;
+}
+
+.container{
+	width:80%;
+	margin:0 auto;
+}
+
+input{
+	margin:0 auto;
+}
+
+.title{
+	font-family: helvtica,arial;
+}
+</style>
+</head>
+
+<script>
+$(function(){
+	var data = [
+		'cow',
+		'goat',
+		'pig',
+		'snake',
+		'hamster',
+		'elephant',
+		'lion',
+		'tiger',
+		'monkey',
+		'lizard',
+		'bird',
+		'crocodile',
+		'gazelle',
+		'antelope'
+	];
+
+	$(".tags_input").tagComplete({
+				
+				keylimit: 1,
+
+				autocomplete: {
+					data: data
+				}
+		});
+});
+</script>
+
+<div class='container'>
+<h1 class='title'>TAG COMPLETE</h1>
+
+<div>Enter Animal Name</div>
+<input type='text' class='input_tag' />
+</div>
