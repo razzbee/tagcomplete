@@ -4,14 +4,14 @@ Tag + AutoComplete = Tagcomplete is a jquery library for tagging and autocomplet
 ##Instruction:
 ###Include the scripts into your page
 
-``html
+```html
 <link rel='stylesheet' href='/path/to/tagcomplete.material.css' />
 
 <script src='/path/to/jquery.js'></script>
 <script src='/path/to/ttagcomplete.js'></script>
-``
+```
 
-``js
+```javascript
 
 <script>
 $(function(){
@@ -47,4 +47,4 @@ $(function(){
    });
    
 });
-``
+```
