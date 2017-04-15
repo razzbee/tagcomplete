@@ -22,6 +22,14 @@
 			//free input
 			freeinput : true,
 
+			//free edit
+			//free edit allows the backspace to
+			//edit edit the tag, this can provide
+			//undesired results ,
+			//also freeInput is required 
+			//for this to work
+			freeEdit : true,
+
 			//autocomplete
 			autocomplete: {
 
@@ -63,7 +71,7 @@
 			},//end on Add 
 
 			//ondelete 
-			//triggers when a drop down is deleted
+			//triggers when a tag is deleted
 			onDelete: function(data){
 				return true;
 			}//end on delete
@@ -75,6 +83,13 @@
 		var options = $.extend(true,defaultOpts,userOpts); 
 		
 		//console.log(options);
+		//
+		
+		//keycode 
+		backspaceKey = 8;
+
+		//enter Key 
+		enterKey = 13;
 
 		//proccess plugin
 		return this.each(function(){
@@ -216,7 +231,8 @@
 				//if value is empty and the backspace is pressed
 				//lets delete last input and also populate 
 				//the input with it
-				if(value.length == 0 && keycode == 8){
+				if(value.length == 0 && 
+				   keycode == backspaceKey){
 
 					//get lastTag
 					lastTagNo = tagsContainer.find('.tag').length;
@@ -231,9 +247,16 @@
 					//delete tag
 					$.fn.deleteTag(lastTagInfo.selector,instance);
 					
+
+					//if free edit and free input is true
+					//use back key to edit tag data
+					if((options.freeEdit && 
+						options.freeInput) ==true){
 					//update the tags input text to the deleted 
 					//also this will help move the cursor to the end
 					tagInput.focus().val(lastTagInfo.text);
+					
+					}//end if 
 
 					//stop exec
 					return self;
@@ -244,7 +267,7 @@
 				//tag is not empty then add tag
 				//if the key too is tokenizer set
 				//create tag
-				else if((keycode == 13 || e.key == options.tokenizer)
+				else if((keycode == enterKey || e.key == options.tokenizer)
 						&& value.length > 0
 						&& options.freeinput == true){
 
@@ -258,7 +281,7 @@
 					if(value.length == 0){
 
 						$(this).val("");
-						
+
 						return self;
 					}
 
