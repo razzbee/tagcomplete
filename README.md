@@ -53,17 +53,26 @@ $(function(){
 ```javascript
 	var defaultOpts = {
 			
-			//keylimit,input limit
-			keylimit: 1,
+			//keyLimit
+			//input limit to start the ajax 
+			//request
+			keyLimit: 1,
 			
 			//tokenizer
 			tokenizer: ",",
 
-			//free input,all free input of data
-			//which is not included in the autocomplet
-			//or suggested
-			freeinput : true,
+			//free input,allow use to insert his 
+			//own tag data
+			freeInput : true,
 
+			//free edit
+			//free edit allows the backspace to
+			//edit the tag, this can provide
+			//undesired results ,
+			//also freeInput is required 
+			//for this to work
+			freeEdit : true,
+			
 			//autocomplete
 			autocomplete: {
 
