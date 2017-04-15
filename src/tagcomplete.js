@@ -13,18 +13,21 @@
 
 		var defaultOpts = {
 			
-			//keylimit
-			keylimit: 1,
+			//keyLimit
+			//input limit to start the ajax 
+			//request
+			keyLimit: 1,
 			
 			//tokenizer
 			tokenizer: ",",
 
-			//free input
-			freeinput : true,
+			//free input,allow use to insert his 
+			//own tag data
+			freeInput : true,
 
 			//free edit
 			//free edit allows the backspace to
-			//edit edit the tag, this can provide
+			//edit the tag, this can provide
 			//undesired results ,
 			//also freeInput is required 
 			//for this to work
@@ -269,7 +272,7 @@
 				//create tag
 				else if((keycode == enterKey || e.key == options.tokenizer)
 						&& value.length > 0
-						&& options.freeinput == true){
+						&& options.freeInput == true){
 
 					//trim last tokenizer 
 					if(value.endsWith(options.tokenizer)){
@@ -303,7 +306,7 @@
 				matchedData = {};
 
 				//if freeinput is enabled
-				if(options.freeinput == true){
+				if(options.freeInput == true){
 					//always the first data will be the value 
 					matchedData[value] = value;
 				}//end if
@@ -312,7 +315,7 @@
 				//url or local source is set 
 				//if value limit is less than keyslimit,then
 				//abort
-				if(value.length < options.keylimit){
+				if(value.length < options.keyLimit){
 					return self;
 				}//end if value length is less than keyslimit
 
