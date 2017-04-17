@@ -12,6 +12,10 @@
 	$.fn.tagComplete = function(userOpts){
 
 		var defaultOpts = {
+
+			//hide 
+			//wether the input should be hidden or not
+			hide: false,
 			
 			//keyLimit
 			//input limit to start the ajax 
@@ -94,20 +98,85 @@
 		//enter Key 
 		enterKey = 13;
 
+
+	    //destory plugin
+		this.destroy = function(){
+			
+			//console.log(this.destroy);
+
+			var instanceId = $(this).data("tagcomplete-id");
+
+			//console.log(instanceId);
+
+			if(!instanceId){
+				return false;
+			}
+
+			var tagCompleteDom = document.getElementById(instanceId);
+
+	
+			//remove 
+			$(tagCompleteDom).remove();
+
+
+			//show original input
+			//remove the data id 
+			$(this).removeData();
+
+			$(this).val("");
+
+			//add new data 
+			refreshDom = new Date().getTime()+Math.random();
+
+			//set refresh string
+			$(this).attr("data-tagcomplete-refresh",refreshDom);
+
+			$(this).addClass("tag-complete-dead").removeClass('hide');
+		} //end
+
+
+		//reinit plugin
+		this.reInit = function(userOptions){
+
+			//destroy plugin first
+			this.destroy();
+
+			//if user wishes to change some options
+			//then lets merge option changes
+			if(userOptions){
+				options = $.extend(true,options,userOptions);
+			}//end if 
+
+			//then recreate plugin
+			return $.fn.tagComplete.call(this,options);
+
+			//console.log(options);
+		}//end
+
 		//proccess plugin
-		return this.each(function(){
+		return this.each(function(instanceNo,userInputDom){
+
 
 			//set ajax pool to contain all requests 
 			ajaxPool = [];
 
 			//lets get the input
-			userInput = self = $(this);
+			userInput = self = $(userInputDom);
 
 			//hide the input 
 			userInput.addClass('hide');
 
+			instanceNo = instanceNo+1;
+
+			instanceId = "";
+
+			var instanceId = instanceNo+(new Date()).getTime()+
+								Math.floor(Math.random());
+
+			hideClass = (options.hide == true) ? "hide" : "";
+
 			//main container
-			tagCompleteMain = $("<div class='tag_complete_main'>"+
+			tagCompleteMain = $("<div id='"+instanceId+"' class='tag_complete_main "+hideClass+"'>"+
 									"<div class='tag_complete'>"+
 									"<div class='tags_container'></div>"+
 									"<input type='text' class='tag_input' />"+
@@ -115,6 +184,9 @@
 									"<ul class='autocomplete hide'></ul>"+
 									"</div>"
 								);
+
+			//set the instance id 
+			userInput.attr("data-tagcomplete-id",instanceId);
 
 			//insert the tagCompleteMain right after the
 			//user input tag
@@ -145,6 +217,7 @@
 				ajaxPool: ajaxPool
 			};//end dom obj
 
+			this.instance = instanceData;
 
 			//focus input if the tags_container is clicked
 			tagComplete.on('click',instanceData,function(e){
