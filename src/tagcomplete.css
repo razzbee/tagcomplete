@@ -59,7 +59,7 @@
 	display:none;
 }
 
-.tag_complete_main .autocomplete{
+.tag_complete_main .autocomplete:not(.hide){
 	width:100%;
 	background:#fcfdff;	
 	display:block;
