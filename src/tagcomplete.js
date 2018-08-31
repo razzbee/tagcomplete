@@ -307,8 +307,7 @@
 				//if value is empty and the backspace is pressed
 				//lets delete last input and also populate 
 				//the input with it
-				if(value.length == 0 && 
-				   keycode == backspaceKey){
+				if (options.freeEdit && (value.length == 0 && keycode == backspaceKey)) {
 
 					//get lastTag
 					lastTagNo = tagsContainer.find('.tag').length;
