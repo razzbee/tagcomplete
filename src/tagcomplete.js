@@ -433,7 +433,7 @@
 						//console.log(ajaxOpts.data);
 
 						ajaxReq = $.ajax(ajaxOpts)
-							.success(function(data){
+							.done(function(data){
 
 							//proccess data
 							proccessedData = options.autocomplete.proccessData.call(null,data);
