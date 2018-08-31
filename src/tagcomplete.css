@@ -41,7 +41,7 @@
   -webkit-user-select:none;
   -ms-user-select:none;
    user-select:none;
-}	
+}
 
 .tag_complete .tags_container .tag .close:after{
 	font-size:18px;
@@ -56,12 +56,12 @@
 
 
 .tag_complete_main .hide{
-	display:none;
+	display:none !important;
 }
 
 .tag_complete_main .autocomplete:not(.hide){
 	width:100%;
-	background:#fcfdff;	
+	background:#fcfdff;
 	display:block;
 	position:relative;
 	border:1px solid #b0bec5;
@@ -73,7 +73,7 @@
 	border-bottom-left-radius:3px;
 	max-height:150px;
 	overflow-y:auto;
-}	
+}
 
 .tag_complete_main .autocomplete li{
 	width:100%;
