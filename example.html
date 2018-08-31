@@ -1,30 +1,31 @@
 <!Doctype html>
 <html>
-<head>
-<link rel='stylesheet' href='src/tagcomplete.min.css' />
-<script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
-<script src='src/tagcomplete.min.js'></script>
-<title>Tag Complete</title>
+	<head>
+	   <meta charset="UTF-8">
+		<link rel='stylesheet' href='src/tagcomplete.css' />
+		<script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+		<script src='src/tagcomplete.js'></script>
+		<title>Tag Complete</title>
 
-<style>
-body{
-	background:#E3EEEF;
-}
+		<style>
+			body{
+				background:#E3EEEF;
+			}
 
-.container{
-	width:80%;
-	margin:0 auto;
-}
+			.container{
+				width:80%;
+				margin:0 auto;
+			}
 
-input{
-	margin:0 auto;
-}
+			input{
+				margin:0 auto;
+			}
 
-.title{
-	font-family: helvtica,arial;
-}
-</style>
-</head>
+			.title{
+				font-family: helvtica,arial;
+			}
+		</style>
+	</head>
 
 <script>
 $(function(){
@@ -46,9 +47,9 @@ $(function(){
 	];
 
 	$(".tags_input").tagComplete({
-				
-				keylimit: 1,
 
+				keylimit: 1,
+				hide: true,
 				autocomplete: {
 					data: data
 				}
@@ -60,5 +61,5 @@ $(function(){
 <h1 class='title'>TAG COMPLETE</h1>
 
 <div>Enter Animal Name</div>
-<input type='text' class='input_tag' />
+<input type='text' class='tags_input' />
 </div>
