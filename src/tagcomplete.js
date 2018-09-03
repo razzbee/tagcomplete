@@ -479,11 +479,11 @@
 				tagText+closeTag+
 				"</span>");
 
-		//append tag
-		instance.tagsContainer.append(tag);
-
 		//trigger onAdd
 		instance.options.onAdd.call(null,{tagId:tagText});
+		
+		//append tag
+		instance.tagsContainer.append(tag);
 
 		//stop ajax requests
 		$.fn.abortAjax(instance.ajaxPool);
