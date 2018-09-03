@@ -483,7 +483,7 @@
 		instance.tagsContainer.append(tag);
 
 		//trigger onAdd
-		instance.options.onAdd.call(null,{tagId:tagText});
+		instance.options.onAdd.call(null,{tagId:tagId, tagText: tagText});
 
 		//stop ajax requests
 		$.fn.abortAjax(instance.ajaxPool);
