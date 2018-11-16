@@ -4,6 +4,7 @@
 	cursor: text;
 	display: block;
 	background:#fcfdff;
+	padding:5px;
 }
 
 .tag_complete .tags_container{
