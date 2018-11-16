@@ -14,7 +14,7 @@
 		var defaultOpts = {
 
 			//hide
-			//wether the input should be hidden or not
+			//wether the tagcomplete input should be hidden or not
 			hide: false,
 
 			//keyLimit
@@ -156,12 +156,17 @@
 		//proccess plugin
 		return this.each(function(instanceNo,userInputDom){
 
+			//set instance to self 
+			var self = this 
 
 			//set ajax pool to contain all requests
 			ajaxPool = [];
 
 			//lets get the input
 			userInput = self = $(userInputDom);
+			
+			//check if user input has a prefilled data
+			var prefilledVaulues = userInput.val() || ""
 
 			//hide the input
 			userInput.hide();
@@ -184,7 +189,7 @@
 								);
 
 			if(options.hide == true){
-				tagComplete.hide()
+				tagCompleteMain.hide()
 			}
 
 			//set the instance id
@@ -219,7 +224,20 @@
 				ajaxPool: ajaxPool
 			};//end dom obj
 
-			this.instance = instanceData;
+			//instance
+			this.instance = self.instance = instanceData;
+
+			//if user has prefilled data, lets add it 
+			if(prefilledVaulues.length > 0){	
+				//split the prefilled input data using the tokenizer
+				var splitPrefilledData = prefilledVaulues.split(options.tokenizer)
+				
+				//loop splitted data and insert it
+				$.each(splitPrefilledData,function(index,value){
+					$.fn.addTag(value,value,self.instance);
+				})//end loop
+
+			}//end if prefilled
 
 			//focus input if the tags_container is clicked
 			tagComplete.on('click',instanceData,function(e){
@@ -244,8 +262,6 @@
 
 				//instance
 				inst = e.data;
-
-				//console.log(inst);
 
 				//id
 				var id = $(this).data('id');

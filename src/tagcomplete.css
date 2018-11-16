@@ -1,6 +1,5 @@
 .tag_complete{
 	border: 1px solid #b0bec5;
-	width:100%;
 	border-radius: 3px;
 	cursor: text;
 	display: block;
@@ -8,7 +7,6 @@
 }
 
 .tag_complete .tags_container{
-	padding:2px;
 	display:inline;
 	margin:auto 0;
 }
@@ -60,7 +58,8 @@
 }
 
 .tag_complete_main .autocomplete:not(.hide){
-	width:100%;
+	list-style: none;
+	padding: 8px;
 	background:#fcfdff;
 	display:block;
 	position:relative;
@@ -73,10 +72,11 @@
 	border-bottom-left-radius:3px;
 	max-height:150px;
 	overflow-y:auto;
+	overflow-x:hidden;
 }
 
 .tag_complete_main .autocomplete li{
-	width:100%;
+	display:block;
 	padding:5px 8px 5px 8px;
 	cursor:pointer;
 	-moz-user-select:none;
