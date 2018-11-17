@@ -125,6 +125,6 @@ $(function(){
 ```		
 
 ## TODOS 
-### Transition from Jquery
-### Image Preview Support to Autocomplete 
-### Autocomplete Data Pagination ( Ajax )
+#### Transition from Jquery
+#### Image Preview Support to Autocomplete 
+#### Autocomplete Data Pagination ( Ajax )
